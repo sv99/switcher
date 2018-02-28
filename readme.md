@@ -15,7 +15,9 @@ Switcher
     │   ├── favicon.ico
     │   ├── etelecom_logo.png
     │   ├── sumtel_logo.png
-    │   └── *.js
+    │   ├── axios.min.js
+    │   ├── bootstrap.min.css
+    │   └── vue.min.js
     ├── favicon.ico
     └── index.html
     
