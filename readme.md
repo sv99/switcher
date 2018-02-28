@@ -17,6 +17,7 @@ Switcher
     │   ├── sumtel_logo.png
     │   ├── axios.min.js
     │   ├── bootstrap.min.css
+    │   ├── vue-spinner.min.js
     │   └── vue.min.js
     ├── favicon.ico
     └── index.html
@@ -76,6 +77,8 @@ client
 [CSS botstrap 4](https://getbootstrap.com/)
 
 [VueJS](https://vuejs.org/)
+
+[vue-spinner](https://github.com/greyby/vue-spinner)
 
 [AJAX library Axios](https://github.com/axios/axios)
 

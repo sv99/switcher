@@ -8,6 +8,7 @@
     <title>Mikrotik Provider Switcher</title>
     <link rel="stylesheet" href="/static/bootstrap.min.css">
     <script src="/static/vue.min.js"></script>
+    <script src="/static/vue-spinner.min.js"></script>
     <script src="/static/axios.min.js"></script>
     <style scoped>
         .container-fluid {
@@ -23,29 +24,44 @@
     <h1 class="text-center mt-5">
         Провайдеры
     </h1>
+
     <button type="button" class="btn btn-lg btn-block"
             v-bind:class="[ isSumtel ? 'btn-success': 'btn-light']"
             v-on:click="clickSumtel">
         <img src="/static/sumtel_logo.png" alt="Sumtel" about="Sumtel">
     </button>
+
     <button type="button" class="btn btn-lg btn-block"
             v-bind:class="[ isEtelecom ? 'btn-success': 'btn-light']"
             v-on:click="clickEtelecom">
         <img src="/static/etelecom_logo.png" alt="Etelecom" about="Sumtel">
     </button>
+
     <div class="alert alert-info mt-2 h5 text-center" role="alert">
     {{ version }}
+    </div>
+
+    <div class="container mt-4">
+        <pulse-loader :loading="switching" :color="spinnerColor" :size="spinnerSize"></pulse-loader>
     </div>
 </div>
 
 <script>
+    var PulseLoader = VueSpinner.PulseLoader;
+
     var vm = new Vue({
         el: '#app',
+
+        components: {
+            'PulseLoader': PulseLoader
+        },
 
         data: {
             version: '',
             provider: '',
-            switching: false
+            switching: false,
+            spinnerColor: '#28a745',
+            spinnerSize: '30px'
         },
 
         computed: {
