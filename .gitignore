@@ -1,0 +1,10 @@
+# dep generated files
+vendor/
+
+# working build
+switcher
+switcher.exe
+
+# ssh keys
+mikrotik.dsa
+mikrotik.dsa.pub
