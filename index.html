@@ -6,40 +6,15 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <title>Mikrotik Provider Switcher</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-          crossorigin="anonymous">
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <script src="/static/vue.min.js"></script>
+    <script src="/static/axios.min.js"></script>
     <style scoped>
         .container-fluid {
             margin-right: auto;
             margin-left: auto;
             max-width: 350px; /* or 950px */
         }
-
-        .spinner {
-            display: inline-block;
-            opacity: 0;
-            max-width: 0;
-            -webkit-transition: opacity 0.25s, max-width 0.45s;
-            -moz-transition: opacity 0.25s, max-width 0.45s;
-            -o-transition: opacity 0.25s, max-width 0.45s;
-            transition: opacity 0.25s, max-width 0.45s;
-            /* Duration fixed since we animate additional hidden width */
-        }
-
-        .has-spinner.active {
-            cursor: progress;
-        }
-
-        .has-spinner.active .spinner {
-            opacity: 1;
-            max-width: 50px;
-            /* More than it will ever come, notice that this affects on animation duration */
-        }
-
     </style>
 
 </head>
@@ -69,7 +44,8 @@
 
         data: {
             version: '',
-            provider: ''
+            provider: '',
+            switching: false
         },
 
         computed: {
@@ -108,16 +84,18 @@
                 });
             },
             switchProvider: function () {
+                this.switching = true;
                 var vm = this;
                 return axios.post('/api/v1/switch').then(function(response) {
                     vm.provider = response.data.provider;
+                    vm.switching = false;
                 });
             },
             clickEtelecom: function () {
-              if (this.isSumtel) this.switchProvider();
+              if (!this.switching && this.isSumtel) this.switchProvider();
             },
             clickSumtel: function () {
-                if (this.isEtelecom) this.switchProvider();
+                if (!this.switching && this.isEtelecom) this.switchProvider();
             }
         }
     });

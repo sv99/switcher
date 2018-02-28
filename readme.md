@@ -77,4 +77,4 @@ client
 
 [AJAX library Axios](https://github.com/axios/axios)
 
-Одна страница webpack не используется.
+webpack не используется.

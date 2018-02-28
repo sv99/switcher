@@ -49,6 +49,7 @@ debug version
 :if ( $provider != "1" ) do={ :set provider 1 } \
 else={ :set provider 2 }
 
+:delay 1
 :put $provider
 } on-error={ :put "error"}
 ```
