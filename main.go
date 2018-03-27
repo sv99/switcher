@@ -71,8 +71,9 @@ func main() {
 
 	app := iris.New()
 	app.Configure(iris.WithConfiguration(iris.Configuration{
-		DisableStartupLog: !*isDev,
-		Charset:           "UTF-8",
+		DisableStartupLog:     !*isDev,
+		DisableVersionChecker: !*isDev,
+		Charset:               "UTF-8",
 	}))
 	app.Use(recover.New())
 	app.Use(logger.New())
@@ -145,7 +146,7 @@ func main() {
 				"/system script run get_provider")
 			if err != nil {
 				sendJsonError(app, ctx, iris.StatusInternalServerError,
-					"run get_provider err: " + err.Error())
+					"run get_provider err: "+err.Error())
 				return
 			}
 			ctx.JSON(iris.Map{"provider": strings.TrimSpace(provider)})
@@ -156,7 +157,7 @@ func main() {
 				"/system script run switch_provider")
 			if err != nil {
 				sendJsonError(app, ctx, iris.StatusInternalServerError,
-					"run switch_provider err: " + err.Error())
+					"run switch_provider err: "+err.Error())
 				return
 			}
 			ctx.JSON(iris.Map{"provider": strings.TrimSpace(provider)})

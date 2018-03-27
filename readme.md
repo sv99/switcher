@@ -83,3 +83,11 @@ client
 [AJAX library Axios](https://github.com/axios/axios)
 
 webpack не используется.
+
+windows target
+--------------
+
+For Window cross compile в отдельной задаче.
+
+Сервис запускаем при помощи NSSM - как videosvr.
+

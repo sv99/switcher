@@ -76,7 +76,6 @@
   revision = "85424b54aeb661d802fad5c305f0e4406a89ade2"
 
 [[projects]]
-  branch = "master"
   name = "github.com/kataras/iris"
   packages = [
     ".",
@@ -106,7 +105,8 @@
     "middleware/recover",
     "view"
   ]
-  revision = "828ad172543eea29e4fe869b128480fd364b9051"
+  revision = "41b17aca9ec493f6eedf17c0e5545cf134f2d445"
+  version = "v10.5.0"
 
 [[projects]]
   branch = "master"
@@ -204,7 +204,13 @@
   name = "golang.org/x/crypto"
   packages = [
     "acme",
-    "acme/autocert"
+    "acme/autocert",
+    "curve25519",
+    "ed25519",
+    "ed25519/internal/edwards25519",
+    "internal/chacha20",
+    "poly1305",
+    "ssh"
   ]
   revision = "8c653846df49742c4c85ec37e5d9f8d3ba657895"
 
@@ -230,14 +236,14 @@
   revision = "cfdcce51965fe68951a5fa45454aa6278c3f9614"
 
 [[projects]]
+  branch = "v2"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
-  revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
-  version = "v2.1.1"
+  revision = "4fc5987536ef307a24ca299aee7ae301cde3d221"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "634d04affa06bc1277bb187ed871cdbb4c4bf90d52db463ee90dba2b7569481e"
+  inputs-digest = "f99d802fbc5a3de2371cd96af9ba797dfc5838e27da15ec84bcfc395acd83167"
   solver-name = "gps-cdcl"
   solver-version = 1
