@@ -16,33 +16,69 @@
             margin-left: auto;
             max-width: 350px; /* or 950px */
         }
+
+        .dune-logo {
+            max-height: 34px;
+            margin-top: 6px;
+        }
+
+        .spacer {
+            height: 100px;
+        }
+
+        .pulse {
+            padding-top: 16px;
+        }
     </style>
 
 </head>
 
 <div id="app" class="container-fluid">
-    <h1 class="text-center mt-5">
-        Провайдеры
-    </h1>
+    <!-- Switch Providers on Mikrotik -->
+    <div id="mikrotik" class="container mt-3 mt-sm-5">
+        <div class="container text-center">
+            <h2 v-show='!switching'>Провайдеры</h2>
+            <pulse-loader class="pulse" :loading="switching" :color="spinnerColor" :size="spinnerSize"></pulse-loader>
+        </div>
 
-    <button type="button" class="btn btn-lg btn-block"
-            v-bind:class="[ isSumtel ? 'btn-success': 'btn-light']"
-            v-on:click="clickSumtel">
-        <img src="/static/sumtel_logo.png" alt="Sumtel" about="Sumtel">
-    </button>
+        <button type="button" class="btn btn-lg btn-block"
+                v-bind:class="[ isSumtel ? 'btn-success': 'btn-light']"
+                v-on:click="clickSumtel">
+            <img src="/static/sumtel_logo.png" alt="Sumtel" about="Sumtel">
+        </button>
 
-    <button type="button" class="btn btn-lg btn-block"
-            v-bind:class="[ isEtelecom ? 'btn-success': 'btn-light']"
-            v-on:click="clickEtelecom">
-        <img src="/static/etelecom_logo.png" alt="Etelecom" about="Sumtel">
-    </button>
+        <button type="button" class="btn btn-lg btn-block"
+                v-bind:class="[ isEtelecom ? 'btn-success': 'btn-light']"
+                v-on:click="clickEtelecom">
+            <img src="/static/etelecom_logo.png" alt="Etelecom" about="Sumtel">
+        </button>
 
-    <div class="alert alert-info mt-2 h5 text-center" role="alert">
-    {{ version }}
+        <div class="alert alert-info mt-2 text-center d-none d-sm-block" role="alert">
+        {{ version }}
+        </div>
     </div>
-
-    <div class="container mt-4">
-        <pulse-loader :loading="switching" :color="spinnerColor" :size="spinnerSize"></pulse-loader>
+    <!-- Dune HD -->
+    <div id="dunes" class="container m-2 mt-sm-3">
+        <div class="container text-center">
+            <h2 v-show='!dune_request'>Dunes</h2>
+            <pulse-loader class="pulse"
+                          :loading="dune_request"
+                          :color="spinnerColor"
+                          :size="spinnerSize">
+            </pulse-loader>
+        </div>
+        <div class="row justify-content-center mb-2" v-for="(item, index) in dunes">
+            <img class="col-4 dune-logo" src="/static/dune_logo.png"
+                 v-bind:alt="'Dune ' + item"
+                 v-bind:about="'Dune ' + item">
+            <button type="button" class="col-6 btn btn-lg btn-block text-center align-middle"
+                    v-bind:id="'dune-' + index"
+                    v-bind:disabled="dunes_status[index] === 'offline'"
+                    v-bind:class="[dunes_button_class[index]]"
+                    v-on:click="clickDune(index)">
+                <span>{{ item }}</span>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -53,15 +89,20 @@
         el: '#app',
 
         components: {
-            'PulseLoader': PulseLoader
+            'PulseLoader': PulseLoader,
         },
 
         data: {
             version: '',
             provider: '',
             switching: false,
+            dune_request: false,
+            not_switching: true,
             spinnerColor: '#28a745',
-            spinnerSize: '30px'
+            spinnerSize: '20px',
+            dunes: [],
+            dunes_status: [],
+            dunes_button_class: []
         },
 
         computed: {
@@ -76,42 +117,132 @@
         created: function () {
             console.log('The application has started');
             var self = this;
-            this.getVersion().then(function(){
-                self.getProvider().then(function() {
+            this.getVersion().then(function () {
+                self.getProvider().then(function () {
                     console.log('Version ' + self.version);
                     console.log('provider ' + self.provider);
                 });
-            })
+            });
+            this.getDunes().then(function () {
+                console.log('Dunes ' + self.dunes);
+                self.dunes_status.length = self.dunes.length;
+                self.dunes_status.fill("offline");
+                self.dunes_button_class.length = self.dunes.length;
+                self.dunes_button_class.fill("btn-danger");
 
+                self.dunes.forEach(function(item, i) {
+                    self.getDuneStatus(i)
+                });
+            })
         },
 
         methods: {
+            //
+            // Mikrotik
+            //
             getVersion: function () {
-                var vm = this
+                var self = this;
                 return axios.get('/api/v1/mikrotik')
                         .then(function (response) {
-                            vm.version = response.data.version;
+                            self.version = response.data.version;
                         });
             },
             getProvider: function () {
                 var vm = this;
-                return axios.get('/api/v1/provider').then(function(response) {
+                return axios.get('/api/v1/provider').then(function (response) {
                     vm.provider = response.data.provider;
                 });
             },
             switchProvider: function () {
                 this.switching = true;
                 var vm = this;
-                return axios.post('/api/v1/switch').then(function(response) {
+                return axios.post('/api/v1/switch').then(function (response) {
                     vm.provider = response.data.provider;
                     vm.switching = false;
                 });
             },
             clickEtelecom: function () {
-              if (!this.switching && this.isSumtel) this.switchProvider();
+                if (!this.switching && this.isSumtel) this.switchProvider();
             },
             clickSumtel: function () {
                 if (!this.switching && this.isEtelecom) this.switchProvider();
+            },
+            //
+            // Dunes
+            //
+            getDunes: function () {
+                var vm = this;
+                vm.dune_request = true;
+                return axios.get('/api/v1/dune/names').then(function (response) {
+                    vm.dunes = response.data.names;
+                    vm.dune_request = false;
+                });
+            },
+            getDuneStatus: function (index) {
+                var vm = this;
+                vm.dune_request = true;
+                return axios.get('/api/v1/dune/' + index +'/status').then(function (response) {
+                    //console.log('response: ' + response.data.status);
+                    vm.dunes_status[index] = response.data.status;
+                    console.log('getDuneStatus: ' + index + ' - ' + response.data.status);
+                    vm.dune_request = false;
+                    vm.refreshDune(index);
+                });
+            },
+            refreshDune: function (index) {
+                var res = 'btn-danger';
+                if (this.dunes_status[index] === 'offline') {
+                    res = 'btn-danger'
+                } else {
+                    if (this.dunes_status[index] === 'standby') {
+                        res = 'btn-secondary'
+                    } else {
+                        res = 'btn-success'
+                    }
+                }
+                this.dunes_button_class[index] = res
+                console.log('refreshDune: ' + index + ' - ' + res);
+            },
+            clickDune: function (index) {
+                var vm = this;
+                console.log('Dune button clicked index: ' + index + ' status: ' + vm.dunes_status[index]);
+                if (vm.dunes_status[index] === 'standby') {
+                    return this.duneOn(index)
+                } else {
+                    return this.duneOff(index)
+                }
+            },
+            duneOn: function (index) {
+                var vm = this;
+                console.log('duneOn: ' + index);
+                // additional check - may by changed from another device
+                vm.getDuneStatus(index).then(function () {
+                    if (vm.dunes_status[index] === 'standby') {
+                        vm.dune_request = true;
+                        axios.get('/api/v1/dune/' + index + '/on').then(function (response) {
+                            setTimeout(function () {
+                                vm.getDuneStatus(index)
+                            }, 5000);
+                        })
+                    }
+                })
+            },
+            duneOff: function (index) {
+                var vm = this;
+                if (vm.dunes_status[index] !== 'standby')
+                vm.dune_request = true;
+                console.log('duneOff: ' + index);
+                // additional check - may by changed from another device
+                vm.getDuneStatus(index).then(function () {
+                    if (vm.dunes_status[index] !== 'standby') {
+                        vm.dune_request = true;
+                        axios.get('/api/v1/dune/' + index + '/off').then(function (response) {
+                            setTimeout(function () {
+                                vm.getDuneStatus(index)
+                            }, 10000);
+                        })
+                    }
+                })
             }
         }
     });

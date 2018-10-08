@@ -1,21 +1,25 @@
 package main
 
 import (
-	"io/ioutil"
-	"net"
-	"flag"
 	"bytes"
-
+	"flag"
 	"github.com/BurntSushi/toml"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
+	"io/ioutil"
+	"net"
 
 	"golang.org/x/crypto/ssh"
 	"strings"
 )
 
-const VERSION = "0.1"
+const VERSION = "0.2"
+
+type Dunes struct {
+	Name []string
+	IP   []string
+}
 
 type Config struct {
 	LogLevel        string
@@ -26,6 +30,7 @@ type Config struct {
 	MikrotikVersion string
 	SshClientConfig *ssh.ClientConfig
 	SshSigner       ssh.Signer
+	Dunes           Dunes
 }
 
 func mikrotikPing(conf Config) (bool, error) {
@@ -69,12 +74,13 @@ func main() {
 	isDev := flag.Bool("dev", false, "development mode")
 	flag.Parse()
 
+
 	app := iris.New()
-	app.Configure(iris.WithConfiguration(iris.Configuration{
-		DisableStartupLog:     !*isDev,
-		DisableVersionChecker: !*isDev,
-		Charset:               "UTF-8",
-	}))
+	irisConf := iris.YAML("./iris.yml")
+	irisConf.DisableVersionChecker = !*isDev
+	irisConf.DisableStartupLog = !*isDev
+	app.Configure(iris.WithConfiguration(irisConf))
+
 	app.Use(recover.New())
 	app.Use(logger.New())
 
@@ -85,6 +91,7 @@ func main() {
 		Key:          "mikrotik.dsa",
 		MikrotikUser: "switcherUser",
 		MikrotikAddr: "192.168.1.202:22",
+		Dunes:        Dunes{},
 	}
 	if _, err := toml.DecodeFile("./switcher.conf", &conf); err != nil {
 		app.Logger().Warn("Config problems: " + err.Error())
@@ -161,6 +168,44 @@ func main() {
 				return
 			}
 			ctx.JSON(iris.Map{"provider": strings.TrimSpace(provider)})
+		})
+
+		// Dune test
+		v1.Get("/dune/names", func(ctx iris.Context) {
+			ctx.JSON(iris.Map{"names": conf.Dunes.Name})
+		})
+
+		v1.Get("/dune/{id:int}/status", func(ctx iris.Context) {
+			id, _ := ctx.Params().GetInt("id")
+			status := "unknown"
+			if id >= 0 && id  < len(conf.Dunes.IP) {
+				ip := conf.Dunes.IP[id]
+				status, err = getDuneStatus(ip)
+				if err != nil {
+					app.Logger().Info("getDuneStatus error: " + err.Error())
+				}
+			}
+			ctx.JSON(iris.Map{"status": status})
+		})
+
+		v1.Get("/dune/{id:int}/on", func(ctx iris.Context) {
+			id, _ := ctx.Params().GetInt("id")
+			status := false
+			if id >= 0 && id < len(conf.Dunes.IP) {
+				ip := conf.Dunes.IP[id]
+				status, _ = getDuneOn(ip)
+			}
+			ctx.JSON(iris.Map{"status": status})
+		})
+
+		v1.Get("/dune/{id:int}/off", func(ctx iris.Context) {
+			id, _ := ctx.Params().GetInt("id")
+			status := false
+			if id >= 0 && id < len(conf.Dunes.IP) {
+				ip := conf.Dunes.IP[id]
+				status, _ = getDuneOff(ip)
+			}
+			ctx.JSON(iris.Map{"status": status})
 		})
 	}
 	app.Run(iris.Addr(conf.ServerAddr))

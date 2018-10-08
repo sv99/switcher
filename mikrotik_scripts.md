@@ -1,6 +1,11 @@
 scripts
 =======
 
+execute on microtik
+```bash
+
+```
+
 get_version
 -----------
 ```lua
