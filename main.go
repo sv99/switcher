@@ -74,7 +74,6 @@ func main() {
 	isDev := flag.Bool("dev", false, "development mode")
 	flag.Parse()
 
-
 	app := iris.New()
 	irisConf := iris.YAML("./iris.yml")
 	irisConf.DisableVersionChecker = !*isDev
@@ -178,7 +177,7 @@ func main() {
 		v1.Get("/dune/{id:int}/status", func(ctx iris.Context) {
 			id, _ := ctx.Params().GetInt("id")
 			status := "unknown"
-			if id >= 0 && id  < len(conf.Dunes.IP) {
+			if id >= 0 && id < len(conf.Dunes.IP) {
 				ip := conf.Dunes.IP[id]
 				status, err = getDuneStatus(ip)
 				if err != nil {

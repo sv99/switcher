@@ -99,6 +99,10 @@ For Window cross compile в отдельной задаче.
 
 Задача отображения состояния и вывод из спящего режима.
 
+dune_ip_control_overview.pdf - описание API.
+
+[Dune Remote Control](http://dune-hd.com/support/rc/)
+
 Добавил дополнительные кнопки для отображения статуса Dune HD.
 
 Динамически подгружаем их имена и IP адреса.

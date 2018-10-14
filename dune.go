@@ -20,6 +20,8 @@ http://192.168.1.148/cgi-bin/do?cmd=status
     <param name="osd_zorder" value="500"/>
 </command_result>
 
+Remote Control IR CODES from http://dune-hd.com/support/rc/
+
 DISCRETE-POWER-ON
 http://192.168.1.148/cgi-bin/do?cmd=ir_code&ir_code=A05FBF00
 DISCRETE-POWER-OFF
@@ -37,17 +39,16 @@ http://192.168.1.148/cgi-bin/do?cmd=ir_code&ir_code=A15EBF00
     <param name="osd_zorder" value="500"/>
 </command_result>
 
-
 */
 
 type Param struct {
-//	XMLName xml.Name `xml:"param"`
-	Name string `xml:"name,attr"`
+	//	XMLName xml.Name `xml:"param"`
+	Name  string `xml:"name,attr"`
 	Value string `xml:"value,attr"`
 }
 
 type Command struct {
-//	XMLName xml.Name `xml:"command_result"`
+	//	XMLName xml.Name `xml:"command_result"`
 	Params []Param `xml:"param"`
 }
 
@@ -88,8 +89,8 @@ func getDuneStatus(ip string) (string, error) {
 	return state, nil
 }
 
-func getIRCodeUrl(ip string, ir_code string) (string) {
-	return 	fmt.Sprintf("http://%s/cgi-bin/do?cmd=ir_code&ir_code=%s", ip, ir_code)
+func getIRCodeUrl(ip string, ir_code string) string {
+	return fmt.Sprintf("http://%s/cgi-bin/do?cmd=ir_code&ir_code=%s", ip, ir_code)
 }
 
 func getDuneIRCode(ip string, ir_code string) (bool, error) {
@@ -115,4 +116,3 @@ func getDuneOn(ip string) (bool, error) {
 func getDuneOff(ip string) (bool, error) {
 	return getDuneIRCode(ip, "A15EBF00")
 }
-
