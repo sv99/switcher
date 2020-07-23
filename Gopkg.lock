@@ -52,10 +52,10 @@
   revision = "24195e6d38b06020d7a92c7b11960cf2e7cad2f2"
 
 [[projects]]
-  name = "github.com/hashicorp/go-version"
+  name = "github.com/iris-contrib/blackfriday"
   packages = ["."]
-  revision = "b5a281d3160aa11950a6182bd9a9dc2cb1e02d50"
-  version = "v1.0.0"
+  revision = "48b3da6a6f3865c7eb1eba96d74cf0a16f63faca"
+  version = "v2.0.0"
 
 [[projects]]
   branch = "master"
@@ -102,23 +102,21 @@
     "core/errors",
     "core/handlerconv",
     "core/host",
-    "core/maintenance",
-    "core/maintenance/version",
     "core/memstore",
     "core/netutil",
     "core/router",
-    "core/router/macro",
-    "core/router/macro/interpreter/ast",
-    "core/router/macro/interpreter/lexer",
-    "core/router/macro/interpreter/parser",
-    "core/router/macro/interpreter/token",
-    "core/router/node",
+    "macro",
+    "macro/handler",
+    "macro/interpreter/ast",
+    "macro/interpreter/lexer",
+    "macro/interpreter/parser",
+    "macro/interpreter/token",
     "middleware/logger",
     "middleware/recover",
     "view"
   ]
-  revision = "217d9feadc0fc5b317826a901065e0c4c27d3cad"
-  version = "10.7.0"
+  revision = "a0f29bd2f48611021667c199cff55c1e3ab46f81"
+  version = "v11.1.1"
 
 [[projects]]
   branch = "master"
@@ -128,16 +126,6 @@
     "terminal"
   ]
   revision = "a9733b5b6b83d32b479aacd51d26ef6018261963"
-
-[[projects]]
-  name = "github.com/kataras/survey"
-  packages = [
-    ".",
-    "core",
-    "terminal"
-  ]
-  revision = "00934ae069eda15df26fa427ac393e67e239380c"
-  version = "v2.0.0"
 
 [[projects]]
   name = "github.com/klauspost/compress"
@@ -153,24 +141,6 @@
   packages = ["."]
   revision = "ae7887de9fa5d2db4eaa8174a7eff2c1ac00f2da"
   version = "v1.1"
-
-[[projects]]
-  name = "github.com/mattn/go-colorable"
-  packages = ["."]
-  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
-  version = "v0.0.9"
-
-[[projects]]
-  name = "github.com/mattn/go-isatty"
-  packages = ["."]
-  revision = "6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c"
-  version = "v0.0.4"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/mgutz/ansi"
-  packages = ["."]
-  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
 
 [[projects]]
   name = "github.com/microcosm-cc/bluemonday"
@@ -257,12 +227,6 @@
   version = "v0.3.0"
 
 [[projects]]
-  name = "gopkg.in/russross/blackfriday.v2"
-  packages = ["."]
-  revision = "d3b5b032dc8e8927d31a5071b56e14c89f045135"
-  version = "v2.0.1"
-
-[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "5420a8b6744d3b0345ab293f6fcba19c978f1183"
@@ -271,6 +235,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e88da35e2cc47085b7048afdbda0a8ce64d28540b39d990c8f39a97230558e8f"
+  inputs-digest = "c90f7284f0e3048233af2bd0e79ae2d00788c4858a75931c25c9ffced8a9c5ab"
   solver-name = "gps-cdcl"
   solver-version = 1

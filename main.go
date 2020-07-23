@@ -76,7 +76,7 @@ func main() {
 
 	app := iris.New()
 	irisConf := iris.YAML("./iris.yml")
-	irisConf.DisableVersionChecker = !*isDev
+	//irisConf.DisableVersionChecker = !*isDev
 	irisConf.DisableStartupLog = !*isDev
 	app.Configure(iris.WithConfiguration(irisConf))
 
