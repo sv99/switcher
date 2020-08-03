@@ -13,6 +13,7 @@ type Dunes struct {
 type Config struct {
 	LogLevel        string
 	ServerAddr      string
+	Debug           bool
 	Key             string
 	MikrotikAddr    string
 	MikrotikUser    string
@@ -26,6 +27,7 @@ func DefaultConfig() Config {
 	return Config{
 		LogLevel:     "info",
 		ServerAddr:   ":8080",
+		Debug: 		  false,
 		Key:          "mikrotik.dsa",
 		MikrotikUser: "switcherUser",
 		MikrotikAddr: "192.168.1.202:22",

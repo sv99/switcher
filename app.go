@@ -28,10 +28,9 @@ type App struct {
 	WorkDir   string
 }
 
-func NewApp(confPath string, isDev bool, zeroLogger *zerolog.Logger) *App {
-
+func NewApp(workDir string, zeroLogger *zerolog.Logger) *App {
 	conf := DefaultConfig()
-	err := conf.TOML(confPath)
+	err := conf.TOML(filepath.Join(workDir, ConfFile))
 	if err != nil {
 		log.Panicf("Config load problems: %v", err)
 	}
@@ -41,12 +40,12 @@ func NewApp(confPath string, isDev bool, zeroLogger *zerolog.Logger) *App {
 	srv := App{
 		Config:  &conf,
 		App:     app,
-		WorkDir: filepath.Dir(confPath),
+		WorkDir: workDir,
 		Logger: zeroLogger,
 	}
 
 	// set global log level
-	if isDev {
+	if conf.Debug {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	} else {
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
@@ -56,7 +55,7 @@ func NewApp(confPath string, isDev bool, zeroLogger *zerolog.Logger) *App {
 
 
 	// dump config
-	srv.Logger.Debug().Msgf("Config: %s", confPath)
+	srv.Logger.Debug().Msgf("Config: %s", workDir)
 	srv.Logger.Debug().Msgf("ServerAddr: %s", srv.Config.ServerAddr)
 	srv.Logger.Debug().Msgf("API version: ", VERSION)
 
@@ -179,7 +178,6 @@ func NewApp(confPath string, isDev bool, zeroLogger *zerolog.Logger) *App {
 		})
 	}
 	app.Use(srv.NotFound)
-	srv.App = app
 	return &srv
 }
 

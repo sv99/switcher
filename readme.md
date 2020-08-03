@@ -1,6 +1,8 @@
 Switcher
 ========
 
+**3.08.2020**
+
 Переключение провайдеров на Mikrotik. Нужно подлючиться к нему по SSH
 и выполнить на нем подготовленный скрипт.
 
@@ -11,30 +13,36 @@ Switcher
     ├── switcher.conf
     ├── *.dsa
     ├── *.dsa.pub (нужен для подключения к mikrotik)
-    ├── static
-    │   ├── favicon.ico
-    │   ├── etelecom_logo.png
-    │   ├── sumtel_logo.png
-    │   ├── axios.min.js
-    │   ├── bootstrap.min.css
-    │   ├── vue-spinner.min.js
-    │   └── vue.min.js
-    ├── favicon.ico
-    └── index.html
+    └── static
+        ├── favicon.ico
+        ├── etelecom_logo.png
+        ├── sumtel_logo.png
+        ├── axios.min.js
+        ├── bootstrap.min.css
+        ├── vue-spinner.min.js
+        └── vue.min.js
     
-dependencies using dep
-----------------------
+server
+------
 
-Не хранит историю git - только актуалные файлы. В результате получаем очень
-компактный размер папки vendor.
+Перешел на [Fiber](https://github.com/gofiber/fiber) и на `mod` для
+управления зависимостями.
 
 ```bash   
-brew install dep
-dep init
-# -v show extended log
-dep ensure -v
-dep ensure -v -update
+go mod init switcher
+go mod tidy
 ```
+
+Сборка на базе `Makefile`.
+
+`index.html` - из сгенерированного статического файла. Остальная статика из
+каталога. В настоящее время не нашел вариант работы со `static assets` для `fiber` 
+
+Логгер [zerolog](https://github.com/rs/zerolog)
+
+Для windows собираю сервис, который принимает параметры для регистрации и запуска.
+
+Первую версию запускал при помощи NSSM.
 
 ssh connect to mikrotik
 -----------------------
@@ -86,13 +94,6 @@ client
 [AJAX library Axios](https://github.com/axios/axios)
 
 webpack не используется.
-
-windows target
---------------
-
-For Window cross compile в отдельной задаче.
-
-Сервис запускаем при помощи NSSM - как videosvr.
 
 Контроль и управление DUNE
 --------------------------

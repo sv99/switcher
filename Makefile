@@ -26,7 +26,7 @@ clean:
 	go clean -testcache
 	rm -rf bin
 
-# generate assets for index file
+## generate assets for index file
 index.go:
 	@-go-bindata -pkg $(PROJECT_NAME) -o index.go -nocompress index.html
 
