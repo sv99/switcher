@@ -1,4 +1,4 @@
-package main
+package switcher
 
 import (
 	"encoding/xml"

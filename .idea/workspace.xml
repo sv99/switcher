@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9b10c70-3d39-49fc-b6a7-7e0881a23ed9" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmd/service/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logger.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mikrotik.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gopkg.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Gopkg.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gopkg.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Gopkg.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gopkg.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Gopkg.toml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dune.go" beforeDir="false" afterPath="$PROJECT_DIR$/dune.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iris.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,12 +27,7 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>key</find>
-    </findStrings>
-  </component>
-  <component name="GOROOT" path="/usr/local/opt/go/libexec" />
+  <component name="GOROOT" path="$PROJECT_DIR$/../../gocode/go1.14.2" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -62,11 +65,13 @@
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cmd/switcher" />
+      <recent name="$PROJECT_DIR$/cmd" />
+      <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/static" />
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -103,8 +108,9 @@
       <item itemvalue="Go Build.switcher" />
     </list>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="project-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.conf" />
@@ -133,11 +139,23 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="2169" y="-61" key="SettingsEditor" timestamp="1581328384681">
+    <state x="2315" y="198" key="#GOROOT" timestamp="1596462181694">
       <screen x="1440" y="-157" width="1920" height="1057" />
     </state>
-    <state x="2169" y="-61" key="SettingsEditor/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1581328384681" />
+    <state x="2315" y="198" key="#GOROOT/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596462181694" />
+    <state x="2042" y="-100" key="SettingsEditor" timestamp="1596463510120">
+      <screen x="1440" y="-157" width="1920" height="1057" />
+    </state>
+    <state x="2042" y="-100" key="SettingsEditor/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596463510120" />
+    <state x="2233" y="16" width="615" height="490" key="find.popup" timestamp="1596466399984">
+      <screen x="1440" y="-157" width="1920" height="1057" />
+    </state>
+    <state x="2233" y="16" width="615" height="490" key="find.popup/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596466399984" />
   </component>
 </project>
