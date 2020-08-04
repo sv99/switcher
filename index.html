@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/static/bootstrap.min.css">
     <script src="/static/vue.min.js"></script>
     <script src="/static/vue-spinner.min.js"></script>
-    <script src="/static/axios.min.js"></script>
     <style scoped>
         .container-fluid {
             margin-right: auto;
@@ -54,7 +53,7 @@
         </button>
 
         <div class="alert alert-info mt-2 text-center d-none d-sm-block" role="alert">
-        {{ version }}
+            {{ version }}
         </div>
     </div>
     <!-- Dune HD -->
@@ -83,160 +82,179 @@
 </div>
 
 <script>
-    const PulseLoader = VueSpinner.PulseLoader;
+  const PulseLoader = VueSpinner.PulseLoader;
 
-    const app = new Vue({
-        el: '#app',
+  const app = new Vue({
+    el: '#app',
 
-        components: {
-            'PulseLoader': PulseLoader,
-        },
+    components: {
+      'PulseLoader': PulseLoader,
+    },
 
-        data: {
-            version: '',
-            provider: '',
-            switching: false,
-            dune_request: false,
-            not_switching: true,
-            spinnerColor: '#28a745',
-            spinnerSize: '20px',
-            dunes: [],
-            dunes_status: [],
-            dunes_button_class: []
-        },
+    data: {
+      version: '',
+      provider: '',
+      switching: false,
+      dune_request: false,
+      not_switching: true,
+      spinnerColor: '#28a745',
+      spinnerSize: '20px',
+      dunes: [],
+      dunes_status: [],
+      dunes_button_class: []
+    },
 
-        computed: {
-            isSumtel: function () {
-                return this.provider === "1";
-            },
-            isEtelecom: function () {
-                return this.provider === "2";
-            }
-        },
+    computed: {
+      isSumtel: function () {
+        return this.provider === "1";
+      },
+      isEtelecom: function () {
+        return this.provider === "2";
+      }
+    },
 
-        created() {
-            console.log('The application has started');
-            this.getVersion().then(() => {
-                this.getProvider().then(() => {
-                    console.log('Version ' + this.version);
-                    console.log('provider ' + this.provider);
-                });
-            });
-            this.getDunes().then(() => {
-                console.log('Dunes ' + this.dunes);
-                this.dunes_status.length = this.dunes.length;
-                this.dunes_status.fill("offline");
-                this.dunes_button_class.length = this.dunes.length;
-                this.dunes_button_class.fill("btn-danger");
+    created() {
+      console.log('The application has started');
+      this.getVersion().then(() => {
+        this.getProvider().then(() => {
+          console.log('Version ' + this.version);
+          console.log('provider ' + this.provider);
+        });
+      });
+      this.getDunes().then(() => {
+        console.log('Dunes ' + this.dunes);
+        this.dunes_status.length = this.dunes.length;
+        this.dunes_status.fill("offline");
+        this.dunes_button_class.length = this.dunes.length;
+        this.dunes_button_class.fill("btn-danger");
 
-                this.dunes.forEach((item, i) => {
-                    this.getDuneStatus(i)
-                });
-            })
-        },
+        this.dunes.forEach((item, i) => {
+          this.getDuneStatus(i)
+        });
+      })
+    },
 
-        methods: {
-            //
-            // Mikrotik
-            //
-            getVersion() {
-                return axios.get('/api/v1/mikrotik')
-                        .then((response) => {
-                            this.version = response.data.version;
-                        });
-            },
-            getProvider() {
-                return axios.get('/api/v1/provider').then((response) => {
-                    this.provider = response.data.provider;
-                });
-            },
-            switchProvider() {
-                this.switching = true;
-                return axios.post('/api/v1/switch').then((response) => {
-                    this.provider = response.data.provider;
-                    this.switching = false;
-                });
-            },
-            clickEtelecom() {
-                if (!this.switching && this.isSumtel) this.switchProvider();
-            },
-            clickSumtel() {
-                if (!this.switching && this.isEtelecom) this.switchProvider();
-            },
-            //
-            // Dunes
-            //
-            getDunes() {
-                this.dune_request = true;
-                return axios.get('/api/v1/dune/names').then((response) => {
-                    this.dunes = response.data.names;
-                    this.dune_request = false;
-                });
-            },
-            getDuneStatus(index) {
-                this.dune_request = true;
-                return axios.get('/api/v1/dune/' + index +'/status').then((response) => {
-                    //console.log('response: ' + response.data.status);
-                    this.dunes_status[index] = response.data.status;
-                    console.log('getDuneStatus: ' + index + ' - ' + response.data.status);
-                    this.dune_request = false;
-                    this.refreshDune(index);
-                });
-            },
-            refreshDune(index) {
-                let res = 'btn-danger';
-                if (this.dunes_status[index] === 'offline') {
-                    res = 'btn-danger'
-                } else {
-                    if (this.dunes_status[index] === 'standby') {
-                        res = 'btn-secondary'
-                    } else {
-                        res = 'btn-success'
-                    }
-                }
-                this.dunes_button_class[index] = res
-                console.log('refreshDune: ' + index + ' - ' + res);
-            },
-            clickDune(index) {
-                console.log('Dune button clicked index: ' + index + ' status: ' + this.dunes_status[index]);
-                if (this.dunes_status[index] === 'standby') {
-                    return this.duneOn(index)
-                } else {
-                    return this.duneOff(index)
-                }
-            },
-            duneOn(index) {
-                console.log('duneOn: ' + index);
-                // additional check - may by changed from another device
-                this.getDuneStatus(index).then(() => {
-                    if (this.dunes_status[index] === 'standby') {
-                        this.dune_request = true;
-                        axios.get('/api/v1/dune/' + index + '/on').then(() => {
-                            setTimeout(() => {
-                                this.getDuneStatus(index)
-                            }, 5000);
-                        })
-                    }
-                })
-            },
-            duneOff(index) {
-                if (this.dunes_status[index] !== 'standby')
-                this.dune_request = true;
-                console.log('duneOff: ' + index);
-                // additional check - may by changed from another device
-                this.getDuneStatus(index).then(() => {
-                    if (this.dunes_status[index] !== 'standby') {
-                        this.dune_request = true;
-                        axios.get('/api/v1/dune/' + index + '/off').then(() => {
-                            setTimeout(() => {
-                                this.getDuneStatus(index)
-                            }, 10000);
-                        })
-                    }
-                })
-            }
+    methods: {
+      // api client
+      client(endpoint, {body, ...customConfig} = {}) {
+        const headers = {'Content-Type': 'application/json'}
+        const config = {
+          method: body ? 'POST' : 'GET',
+          ...customConfig,
+          headers: {
+            ...headers,
+            ...customConfig.headers,
+          },
         }
-    });
+        if (body) {
+          config.body = JSON.stringify(body)
+        }
+        return window
+          .fetch(`/api/v1/${endpoint}`, config)
+          .then(async response => {
+            const data = await response.json()
+            if (response.ok) {
+              return data
+            } else {
+              return Promise.reject(data)
+            }
+          })
+      },
+      //
+      // Mikrotik
+      //
+      getVersion() {
+        return this.client('mikrotik').then(data => this.version = data.version)
+      },
+      getProvider() {
+        return this.client('provider').then(data => this.provider = data.provider)
+      },
+      switchProvider() {
+        this.switching = true;
+        return this.client('switch', {body: {}}).then(data => {
+          this.provider = data.provider;
+          this.switching = false;
+        })
+      },
+      clickEtelecom() {
+        if (!this.switching && this.isSumtel) this.switchProvider();
+      },
+      clickSumtel() {
+        if (!this.switching && this.isEtelecom) this.switchProvider();
+      },
+      //
+      // Dunes
+      //
+      getDunes() {
+        this.dune_request = true;
+        return this.client('dune/names').then(data => {
+          this.dunes = data.names;
+          this.dune_request = false;
+        })
+      },
+      getDuneStatus(index) {
+        this.dune_request = true;
+        return this.client(`dune/${index}/status`).then(data => {
+          this.dunes_status[index] = data.status;
+          console.log(`getDuneStatus: ${index} - ${data.status}`);
+          this.dune_request = false;
+          this.refreshDune(index);
+        })
+      },
+      refreshDune(index) {
+        let res = 'btn-danger';
+        if (this.dunes_status[index] === 'offline') {
+          res = 'btn-danger'
+        } else {
+          if (this.dunes_status[index] === 'standby') {
+            res = 'btn-secondary'
+          } else {
+            res = 'btn-success'
+          }
+        }
+        this.dunes_button_class[index] = res
+        console.log('refreshDune: ' + index + ' - ' + res);
+      },
+      clickDune(index) {
+        console.log('Dune button clicked index: ' + index + ' status: ' + this.dunes_status[index]);
+        if (this.dunes_status[index] === 'standby') {
+          return this.duneOn(index)
+        } else {
+          return this.duneOff(index)
+        }
+      },
+      duneOn(index) {
+        console.log('duneOn: ' + index);
+        // additional check - may by changed from another device
+        this.getDuneStatus(index).then(() => {
+          if (this.dunes_status[index] === 'standby') {
+            this.dune_request = true;
+            return this.client(`dune/${index}/on`).then(() => {
+              setTimeout(() => {
+                this.getDuneStatus(index)
+              }, 5000);
+            })
+          }
+        })
+      },
+      duneOff(index) {
+        if (this.dunes_status[index] !== 'standby')
+          this.dune_request = true;
+        console.log('duneOff: ' + index);
+        // additional check - may by changed from another device
+        this.getDuneStatus(index).then(() => {
+          if (this.dunes_status[index] !== 'standby') {
+            this.dune_request = true;
+            return this.client(`dune/${index}/off`).then(() => {
+              setTimeout(() => {
+                this.getDuneStatus(index)
+              }, 10000);
+            })
+          }
+        })
+      }
+    }
+  });
 </script>
 </body>
 </html>
