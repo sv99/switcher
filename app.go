@@ -70,7 +70,7 @@ func NewApp(workDir string, zeroLogger *zerolog.Logger) *App {
 	app.Use(helmet.New())
 
 	// init ssh key
-	buffer, err := ioutil.ReadFile(conf.Key)
+	buffer, err := ioutil.ReadFile(filepath.Join(workDir, conf.Key))
 	if err != nil {
 		srv.Logger.Fatal().Msgf("Read ssh key problems: %v", err)
 	}
@@ -103,8 +103,8 @@ func NewApp(workDir string, zeroLogger *zerolog.Logger) *App {
 		ctx.Type("html", "utf-8")
 		ctx.Send(_indexHtml)
 	})
-	app.Use(middleware.Favicon("./static/favicon.ico"))
-	app.Static("/static", "./static")
+	app.Use(middleware.Favicon(filepath.Join(workDir, "static/favicon.ico")))
+	app.Static("/static", filepath.Join(workDir, "static"))
 
 	// API
 	v1 := app.Group("/api/v1")

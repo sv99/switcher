@@ -11,7 +11,7 @@ import (
 
 func NewLogger(workDir string, console bool) (*zerolog.Logger, error) {
 	// log to file for all
-	filename := filepath.Join(workDir, "log", "videodir.log")
+	filename := filepath.Join(workDir, "log", "switcher.log")
 	_ = os.Mkdir(filepath.Join(workDir, "log"), 0755)
 	// open an output file, this will append to the today's file if server restarted.
 	logfile, err := os.OpenFile(filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)

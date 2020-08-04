@@ -41,13 +41,14 @@ go mod tidy
 Логгер [zerolog](https://github.com/rs/zerolog)
 
 Для windows собираю сервис, который принимает параметры для регистрации и запуска.
+Сервис нормально работает под системной учеткой, устанавливать сетевую учетку не потребовалось.
 
 Первую версию запускал при помощи NSSM.
 
 ssh connect to mikrotik
 -----------------------
 
-Mikrotik разрешает коннектиться только по DSA ключам.
+Mikrotik разрешает подключиться только по DSA ключам.
 
     # generate key
     ssh-keygen -f mikrotik.dsa -t dsa
@@ -70,8 +71,8 @@ On Mikrotik
 сети минуя цепочку fail2ban. В приложении не храню SSH Session - 
 каждый запрос отдельное подключение!
 
-scripts
--------
+mikrotik scripts
+----------------
 
 script          | Result
 --------------- | ---------------------------------
@@ -91,9 +92,9 @@ client
 
 [vue-spinner](https://github.com/greyby/vue-spinner)
 
-[AJAX library Axios](https://github.com/axios/axios)
+webpack не используется - локальное приложение прямо на странице.
 
-webpack не используется.
+[AJAX library Axios](https://github.com/axios/axios) заменил на обертку для `window.fetch()`
 
 Контроль и управление DUNE
 --------------------------
