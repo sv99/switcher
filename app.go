@@ -57,7 +57,7 @@ func NewApp(workDir string, zeroLogger *zerolog.Logger) *App {
 	// dump config
 	srv.Logger.Debug().Msgf("Config: %s", workDir)
 	srv.Logger.Debug().Msgf("ServerAddr: %s", srv.Config.ServerAddr)
-	srv.Logger.Debug().Msgf("API version: ", VERSION)
+	srv.Logger.Debug().Msgf("API version: %s", VERSION)
 
 	app.Use(NewLoggerMiddleware(zeroLogger))
 

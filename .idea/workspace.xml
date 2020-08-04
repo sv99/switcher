@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9b10c70-3d39-49fc-b6a7-7e0881a23ed9" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/service/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/service/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/logger.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/switcher.conf" beforeDir="false" afterPath="$PROJECT_DIR$/switcher.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +70,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.switcher for windows">
+  <component name="RunManager" selected="Go Build.switcher">
     <configuration name="switcher for windows" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="switcher" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -146,6 +144,10 @@
       <screen x="1440" y="-157" width="1920" height="1057" />
     </state>
     <state x="2315" y="198" key="#GOROOT/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596462181694" />
+    <state x="1802" y="-3" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596545580663">
+      <screen x="1440" y="-157" width="1920" height="1057" />
+    </state>
+    <state x="1802" y="-3" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596545580663" />
     <state x="2042" y="-100" key="SettingsEditor" timestamp="1596463510120">
       <screen x="1440" y="-157" width="1920" height="1057" />
     </state>

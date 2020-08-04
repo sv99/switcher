@@ -34,11 +34,9 @@ func NewLogger(workDir string, console bool) (*zerolog.Logger, error) {
 		}
 		multi := zerolog.MultiLevelWriter(consoleWriter, fileWriter)
 		logger := zerolog.New(multi).With().Timestamp().Logger()
-		logger.Info().Msg("multi logger")
 		return &logger, nil
 	} else {
 		logger := zerolog.New(fileWriter).With().Timestamp().Logger()
-		logger.Info().Msg("file logger")
 		return &logger, nil
 	}
 }

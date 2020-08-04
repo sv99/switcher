@@ -87,7 +87,7 @@ var _indexHtml = []byte(`<!DOCTYPE html>
     </style>
 
 </head>
-
+<body>
 <div id="app" class="container-fluid">
     <!-- Switch Providers on Mikrotik -->
     <div id="mikrotik" class="container mt-3 mt-sm-5">
@@ -138,9 +138,9 @@ var _indexHtml = []byte(`<!DOCTYPE html>
 </div>
 
 <script>
-    var PulseLoader = VueSpinner.PulseLoader;
+    const PulseLoader = VueSpinner.PulseLoader;
 
-    var vm = new Vue({
+    const app = new Vue({
         el: '#app',
 
         components: {
@@ -169,24 +169,23 @@ var _indexHtml = []byte(`<!DOCTYPE html>
             }
         },
 
-        created: function () {
+        created() {
             console.log('The application has started');
-            var self = this;
-            this.getVersion().then(function () {
-                self.getProvider().then(function () {
-                    console.log('Version ' + self.version);
-                    console.log('provider ' + self.provider);
+            this.getVersion().then(() => {
+                this.getProvider().then(() => {
+                    console.log('Version ' + this.version);
+                    console.log('provider ' + this.provider);
                 });
             });
-            this.getDunes().then(function () {
-                console.log('Dunes ' + self.dunes);
-                self.dunes_status.length = self.dunes.length;
-                self.dunes_status.fill("offline");
-                self.dunes_button_class.length = self.dunes.length;
-                self.dunes_button_class.fill("btn-danger");
+            this.getDunes().then(() => {
+                console.log('Dunes ' + this.dunes);
+                this.dunes_status.length = this.dunes.length;
+                this.dunes_status.fill("offline");
+                this.dunes_button_class.length = this.dunes.length;
+                this.dunes_button_class.fill("btn-danger");
 
-                self.dunes.forEach(function(item, i) {
-                    self.getDuneStatus(i)
+                this.dunes.forEach((item, i) => {
+                    this.getDuneStatus(i)
                 });
             })
         },
@@ -195,57 +194,52 @@ var _indexHtml = []byte(`<!DOCTYPE html>
             //
             // Mikrotik
             //
-            getVersion: function () {
-                var self = this;
+            getVersion() {
                 return axios.get('/api/v1/mikrotik')
-                        .then(function (response) {
-                            self.version = response.data.version;
+                        .then((response) => {
+                            this.version = response.data.version;
                         });
             },
-            getProvider: function () {
-                var vm = this;
-                return axios.get('/api/v1/provider').then(function (response) {
-                    vm.provider = response.data.provider;
+            getProvider() {
+                return axios.get('/api/v1/provider').then((response) => {
+                    this.provider = response.data.provider;
                 });
             },
-            switchProvider: function () {
+            switchProvider() {
                 this.switching = true;
-                var vm = this;
-                return axios.post('/api/v1/switch').then(function (response) {
-                    vm.provider = response.data.provider;
-                    vm.switching = false;
+                return axios.post('/api/v1/switch').then((response) => {
+                    this.provider = response.data.provider;
+                    this.switching = false;
                 });
             },
-            clickEtelecom: function () {
+            clickEtelecom() {
                 if (!this.switching && this.isSumtel) this.switchProvider();
             },
-            clickSumtel: function () {
+            clickSumtel() {
                 if (!this.switching && this.isEtelecom) this.switchProvider();
             },
             //
             // Dunes
             //
-            getDunes: function () {
-                var vm = this;
-                vm.dune_request = true;
-                return axios.get('/api/v1/dune/names').then(function (response) {
-                    vm.dunes = response.data.names;
-                    vm.dune_request = false;
+            getDunes() {
+                this.dune_request = true;
+                return axios.get('/api/v1/dune/names').then((response) => {
+                    this.dunes = response.data.names;
+                    this.dune_request = false;
                 });
             },
-            getDuneStatus: function (index) {
-                var vm = this;
-                vm.dune_request = true;
-                return axios.get('/api/v1/dune/' + index +'/status').then(function (response) {
+            getDuneStatus(index) {
+                this.dune_request = true;
+                return axios.get('/api/v1/dune/' + index +'/status').then((response) => {
                     //console.log('response: ' + response.data.status);
-                    vm.dunes_status[index] = response.data.status;
+                    this.dunes_status[index] = response.data.status;
                     console.log('getDuneStatus: ' + index + ' - ' + response.data.status);
-                    vm.dune_request = false;
-                    vm.refreshDune(index);
+                    this.dune_request = false;
+                    this.refreshDune(index);
                 });
             },
-            refreshDune: function (index) {
-                var res = 'btn-danger';
+            refreshDune(index) {
+                let res = 'btn-danger';
                 if (this.dunes_status[index] === 'offline') {
                     res = 'btn-danger'
                 } else {
@@ -258,42 +252,39 @@ var _indexHtml = []byte(`<!DOCTYPE html>
                 this.dunes_button_class[index] = res
                 console.log('refreshDune: ' + index + ' - ' + res);
             },
-            clickDune: function (index) {
-                var vm = this;
-                console.log('Dune button clicked index: ' + index + ' status: ' + vm.dunes_status[index]);
-                if (vm.dunes_status[index] === 'standby') {
+            clickDune(index) {
+                console.log('Dune button clicked index: ' + index + ' status: ' + this.dunes_status[index]);
+                if (this.dunes_status[index] === 'standby') {
                     return this.duneOn(index)
                 } else {
                     return this.duneOff(index)
                 }
             },
-            duneOn: function (index) {
-                var vm = this;
+            duneOn(index) {
                 console.log('duneOn: ' + index);
                 // additional check - may by changed from another device
-                vm.getDuneStatus(index).then(function () {
-                    if (vm.dunes_status[index] === 'standby') {
-                        vm.dune_request = true;
-                        axios.get('/api/v1/dune/' + index + '/on').then(function (response) {
-                            setTimeout(function () {
-                                vm.getDuneStatus(index)
+                this.getDuneStatus(index).then(() => {
+                    if (this.dunes_status[index] === 'standby') {
+                        this.dune_request = true;
+                        axios.get('/api/v1/dune/' + index + '/on').then(() => {
+                            setTimeout(() => {
+                                this.getDuneStatus(index)
                             }, 5000);
                         })
                     }
                 })
             },
-            duneOff: function (index) {
-                var vm = this;
-                if (vm.dunes_status[index] !== 'standby')
-                vm.dune_request = true;
+            duneOff(index) {
+                if (this.dunes_status[index] !== 'standby')
+                this.dune_request = true;
                 console.log('duneOff: ' + index);
                 // additional check - may by changed from another device
-                vm.getDuneStatus(index).then(function () {
-                    if (vm.dunes_status[index] !== 'standby') {
-                        vm.dune_request = true;
-                        axios.get('/api/v1/dune/' + index + '/off').then(function (response) {
-                            setTimeout(function () {
-                                vm.getDuneStatus(index)
+                this.getDuneStatus(index).then(() => {
+                    if (this.dunes_status[index] !== 'standby') {
+                        this.dune_request = true;
+                        axios.get('/api/v1/dune/' + index + '/off').then(() => {
+                            setTimeout(() => {
+                                this.getDuneStatus(index)
                             }, 10000);
                         })
                     }
@@ -303,7 +294,8 @@ var _indexHtml = []byte(`<!DOCTYPE html>
     });
 </script>
 </body>
-</html>`)
+</html>
+`)
 
 func indexHtmlBytes() ([]byte, error) {
 	return _indexHtml, nil
@@ -315,7 +307,7 @@ func indexHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "index.html", size: 9270, mode: os.FileMode(420), modTime: time.Unix(1539015318, 0)}
+	info := bindataFileInfo{name: "index.html", size: 8810, mode: os.FileMode(420), modTime: time.Unix(1596549991, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

@@ -2,7 +2,7 @@
 #
 # for watch using watchexec from brew - github.com/watchexec/watchexec
 #
-.PHONY: all clean data_image help run
+.PHONY: all clean data_image help run index.go
 .DEFAULT_GOAL := help
 
 PROJECT_NAME=$(shell basename "$(PWD)")
@@ -25,10 +25,11 @@ clean:
 	go clean
 	go clean -testcache
 	rm -rf bin
+	rm index.go
 
 ## generate assets for index file
 index.go:
-	@-go-bindata -pkg $(PROJECT_NAME) -o index.go -nocompress index.html
+	@-go-bindata -pkg $(PROJECT_NAME) -o $@ -nocompress index.html
 
 ## start: Start with watch
 start:
@@ -48,7 +49,7 @@ run: stop
 watch:
 	@echo watch
 	@-watchexec --exts go \
-		-w cmd/ -w . -i videodir/assets.go \
+		-w cmd/ -w . -i index.go \
 		"make $(PROJECT_NAME) run"
 
 ## help: Show commands.
