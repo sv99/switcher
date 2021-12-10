@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f9b10c70-3d39-49fc-b6a7-7e0881a23ed9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/logger.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/axios.min.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +22,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="$PROJECT_DIR$/../../gocode/go1.14.2" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../gocode/go1.17.3" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -39,6 +41,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="false" />
@@ -78,9 +82,9 @@
         <env name="GOARCH" value="386" />
       </envs>
       <kind value="DIRECTORY" />
-      <filePath value="$PROJECT_DIR$/" />
       <package value="switcher" />
       <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
       <output_directory value="$PROJECT_DIR$" />
       <option name="run" value="false" />
       <method v="2" />
@@ -91,9 +95,9 @@
       <go_parameters value="-i" />
       <parameters value="-dev" />
       <kind value="DIRECTORY" />
-      <filePath value="$PROJECT_DIR$/" />
       <package value="switcher" />
       <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
     <list>
@@ -136,23 +140,5 @@
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="2315" y="198" key="#GOROOT" timestamp="1596462181694">
-      <screen x="1440" y="-157" width="1920" height="1057" />
-    </state>
-    <state x="2315" y="198" key="#GOROOT/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596462181694" />
-    <state x="1802" y="-3" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596545580663">
-      <screen x="1440" y="-157" width="1920" height="1057" />
-    </state>
-    <state x="1802" y="-3" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596545580663" />
-    <state x="2042" y="-100" key="SettingsEditor" timestamp="1596463510120">
-      <screen x="1440" y="-157" width="1920" height="1057" />
-    </state>
-    <state x="2042" y="-100" key="SettingsEditor/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596463510120" />
-    <state x="2233" y="16" width="615" height="490" key="find.popup" timestamp="1596551885130">
-      <screen x="1440" y="-157" width="1920" height="1057" />
-    </state>
-    <state x="2233" y="16" width="615" height="490" key="find.popup/0.23.1440.877/1440.-157.1920.1057@1440.-157.1920.1057" timestamp="1596551885130" />
   </component>
 </project>

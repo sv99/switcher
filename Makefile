@@ -12,20 +12,23 @@ PID="/tmp/.$(PROJECT_NAME).pid"
 
 ## switcher: Build binary
 $(PROJECT_NAME): index.go
-	@-go build -i -o bin/$@ ./cmd/$@/main.go
+	@-go build -o bin/$@ ./cmd/$@/main.go
 	@echo end-build $@
 
 ## service: Build windows service
-$(SERVICE):
-	GOOS=windows GOARCH=386 go build -i -o bin/$(PROJECT_NAME)_$@.exe ./cmd/$@
-	GOOS=windows GOARCH=amd64 go build -i -o bin/$(PROJECT_NAME)_$@_amd64.exe ./cmd/$@
+$(SERVICE): index.go
+	GOOS=windows GOARCH=386 go build -o bin/$(PROJECT_NAME)_$@.exe ./cmd/$@
+	GOOS=windows GOARCH=amd64 go build -o bin/$(PROJECT_NAME)_$@_amd64.exe ./cmd/$@
+
+## build: Build all binary
+build: clean switcher service
 
 ## clean: Clean build cache and remove bin directory
 clean:
 	go clean
 	go clean -testcache
 	rm -rf bin
-	rm index.go
+	rm -f index.go
 
 ## generate assets for index file
 index.go:

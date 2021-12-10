@@ -1,11 +1,11 @@
 package switcher
 
 import (
-	"github.com/gofiber/fiber"
 	"os"
 	"path/filepath"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
 )
 
@@ -41,18 +41,19 @@ func NewLogger(workDir string, console bool) (*zerolog.Logger, error) {
 	}
 }
 
-func NewLoggerMiddleware(logger *zerolog.Logger) func(*fiber.Ctx) {
+func NewLoggerMiddleware(logger *zerolog.Logger) fiber.Handler {
 	// default format "${time} ${method} ${path} - ${ip} - ${status} - ${latency}\n"
 	// Middleware function
-	return func(c *fiber.Ctx) {
+	return func(c *fiber.Ctx) error {
 		start := time.Now()
 		// handle request
-		c.Next()
+		err := c.Next()
 		// build log
 		stop := time.Now()
 
 		logger.Info().Msgf("%s %s - %s - %d - %s",
-			c.Method(), c.Path(), c.IP(), c.Fasthttp.Response.StatusCode(),
+			c.Method(), c.Path(), c.IP(), c.Response().StatusCode(),
 			stop.Sub(start).String())
+		return err
 	}
 }
