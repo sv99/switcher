@@ -7,8 +7,8 @@ require (
 	github.com/gofiber/fiber/v2 v2.23.0
 	github.com/gofiber/helmet/v2 v2.2.5
 	github.com/rs/zerolog v1.26.0
-	golang.org/x/crypto v0.0.0-20211209193657-4570a0811e8b
-	golang.org/x/sys v0.0.0-20211210111614-af8b64212486
+	golang.org/x/crypto v0.1.0
+	golang.org/x/sys v0.1.0
 )
 
 require (
