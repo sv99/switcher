@@ -7,14 +7,14 @@ require (
 	github.com/gofiber/fiber/v2 v2.23.0
 	github.com/gofiber/helmet/v2 v2.2.5
 	github.com/rs/zerolog v1.26.0
-	golang.org/x/crypto v0.0.0-20211209193657-4570a0811e8b
-	golang.org/x/sys v0.0.0-20211210111614-af8b64212486
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
+	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/klauspost/compress v1.13.6 // indirect
+	github.com/klauspost/compress v1.15.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.31.0 // indirect
+	github.com/valyala/fasthttp v1.34.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 )
