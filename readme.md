@@ -48,18 +48,19 @@ go mod tidy
 ssh connect to mikrotik
 -----------------------
 
-Mikrotik разрешает подключиться только по DSA ключам.
+Старые версии Mikrotik работали с DSA ключами. После обновления OpenSSH до версии 7.0 стали работать с RSA ключами.
 
     # generate key
     ssh-keygen -f mikrotik.dsa -t dsa
+    ssh-keygen -f mikrotik.rsa -t rsa
 
 On Mikrotik
 
     /user add name=switcherUser group=switcher  disabled=no
     # switcher group write, read
-    /user ssh-keys import public-key-file=mikrotik.dsa.pub user=switcherUser
+    /user ssh-keys import public-key-file=mikrotik.rsa.pub user=switcherUser
     # check connect
-    ssh -i mikrotik.dsa scriptUser@192.168.1.202 “/system resource print”
+    ssh -i mikrotik.rsa switcherUser@192.168.1.202 “/system resource print”
 
 Чтобы заработала DSA на последней OSX with OpenSSH 7 нужно разрешить
 использовать
@@ -108,3 +109,28 @@ dune_ip_control_overview.pdf - описание API.
 Добавил дополнительные кнопки для отображения статуса Dune HD.
 
 Динамически подгружаем их имена и IP адреса.
+
+History
+-------
+
+**Февраль 2018** старт проекта
+
+На базе [iris](https://github.com/kataras/iris) bootstrap and vue
+
+**Октябрь 2018** старт проекта
+
+Добавление отображения состояния Dune и возможность их пробуждения 
+
+**Июль 2020** обновление версий библиотек
+
+**Август 2020** переход на fiber, добавление windows сервиса
+
+1. Сделал другие проекты и перевел этот тоже.
+2. Обновление фронтенда
+
+**Декабрь 2021** переход на fiber v2
+
+
+
+
+

@@ -2,10 +2,6 @@
 bin/
 log/
 
-# working build
-switcher
-switcher.exe
-
 # ssh keys
 mikrotik.dsa
 mikrotik.dsa.pub
