@@ -2,9 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build windows
 // +build windows
 
-package switcher
+package internal
 
 import (
 	"fmt"
@@ -20,7 +21,7 @@ import (
 
 var elog debug.Log
 
-type MyService struct{
+type MyService struct {
 	Name          string
 	Desc          string
 	IsInteractive bool
@@ -28,8 +29,8 @@ type MyService struct{
 
 func NewService(name, desc string, isInteractive bool) *MyService {
 	return &MyService{
-		Name: name,
-		Desc: desc,
+		Name:          name,
+		Desc:          desc,
 		IsInteractive: isInteractive,
 	}
 }

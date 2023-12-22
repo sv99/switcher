@@ -110,6 +110,22 @@ dune_ip_control_overview.pdf - описание API.
 
 Динамически подгружаем их имена и IP адреса.
 
+frontend with vite
+------------------
+
+Переделка frontend с поддержкой генерации кода на базе vite.
+
+* [Making a Full-Stack App with Vue, Vite and Express that supports Hot Reload](https://blog.codeminer42.com/making-a-full-stack-app-with-vue-vite-and-express-that-supports-hot-reload/)
+* [cm42-blogpost-vue-express-webapp](https://github.com/rhian-cs/cm42-blogpost-vue-express-webapp/tree/master)
+* [Vite - Backend Integration](https://vitejs.dev/guide/backend-integration.html)
+
+Проект на базе express. Нужно конвертировать его на базе golang/fiber
+
+Особенность генерации страницы в зависимости от режима Dev-Prod.
+
+Точно нужно добавить шаблон для index.html с загрузкой по необходимости.
+Параметры сгенерированных файлов берутся из файла manifest.json, сгенерированного vite.
+
 History
 -------
 
@@ -130,7 +146,14 @@ History
 
 **Декабрь 2021** переход на fiber v2
 
+**Декабрь 2023** переход на fiber v2
 
+Версия v0.5
+
+1. go 1.20.3 - последняя версия, которая поддерживает Windows 7
+2. обновление пакетов
+3. интеграция версии через ldflags
+4. 
 
 
 

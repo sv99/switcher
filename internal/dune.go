@@ -1,9 +1,12 @@
-package switcher
+package internal
 
 import (
 	"encoding/xml"
 	"fmt"
+	"net"
 	"net/http"
+
+	"github.com/rs/zerolog/log"
 )
 
 /*
@@ -73,7 +76,7 @@ func getDune(url string) (Command, error) {
 	return command, nil
 }
 
-func getDuneStatus(ip string) (string, error) {
+func getDuneStatus(ip net.IP) (string, error) {
 	url := fmt.Sprintf("http://%s/cgi-bin/do?cmd=status", ip)
 	cmd, err := getDune(url)
 	if err != nil {
@@ -89,11 +92,11 @@ func getDuneStatus(ip string) (string, error) {
 	return state, nil
 }
 
-func getIRCodeUrl(ip string, ir_code string) string {
+func getIRCodeUrl(ip net.IP, ir_code string) string {
 	return fmt.Sprintf("http://%s/cgi-bin/do?cmd=ir_code&ir_code=%s", ip, ir_code)
 }
 
-func getDuneIRCode(ip string, ir_code string) (bool, error) {
+func getDuneIRCode(ip net.IP, ir_code string) (bool, error) {
 	url := getIRCodeUrl(ip, ir_code)
 	cmd, err := getDune(url)
 	if err != nil {
@@ -109,10 +112,43 @@ func getDuneIRCode(ip string, ir_code string) (bool, error) {
 	return state, nil
 }
 
-func getDuneOn(ip string) (bool, error) {
+func getDuneOn(ip net.IP) (bool, error) {
 	return getDuneIRCode(ip, "A05FBF00")
 }
 
-func getDuneOff(ip string) (bool, error) {
+func getDuneOff(ip net.IP) (bool, error) {
 	return getDuneIRCode(ip, "A15EBF00")
+}
+
+func GetDuneStatusById(conf *Config, id string) string {
+	status := "unknown"
+	if ip := net.ParseIP(conf.GetDuneIP(id)); ip != nil {
+		var err error
+		if status, err = getDuneStatus(ip); err != nil {
+			log.Error().Msgf("getDuneStatus error: %v", err)
+		}
+	}
+	return status
+}
+
+func DuneOnById(conf *Config, id string) bool {
+	status := false
+	if ip := net.ParseIP(conf.GetDuneIP(id)); ip != nil {
+		var err error
+		if status, err = getDuneOn(ip); err != nil {
+			log.Error().Msgf("getDuneOn error: %v", err)
+		}
+	}
+	return status
+}
+
+func DuneOffById(conf *Config, id string) bool {
+	status := false
+	if ip := net.ParseIP(conf.GetDuneIP(id)); ip != nil {
+		var err error
+		if status, err = getDuneOff(ip); err != nil {
+			log.Error().Msgf("getDuneOn error: %v", err)
+		}
+	}
+	return status
 }
