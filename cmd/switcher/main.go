@@ -3,11 +3,12 @@ package main
 import (
 	"os"
 	"os/signal"
-	"switcher/internal"
 	"time"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+
+	"switcher/internal"
 )
 
 func main() {

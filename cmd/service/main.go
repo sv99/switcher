@@ -1,3 +1,4 @@
+//go:build windows
 // +build windows
 
 package main
@@ -9,7 +10,8 @@ import (
 	"strings"
 
 	"golang.org/x/sys/windows/svc"
-	"switcher"
+
+	"switcher/internal"
 )
 
 func usage(errmsg string) {
@@ -34,7 +36,7 @@ func main() {
 		log.Fatalf("failed to determine if we are running in an interactive session: %v", err)
 	}
 
-	service := switcher.NewService(svcName, svcDesc, isIntSess)
+	service := internal.NewService(svcName, svcDesc, isIntSess)
 
 	// check service mode
 	if !isIntSess {
